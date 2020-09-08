@@ -30,7 +30,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#about">ABOUT</a></li>
-        <li><a href="#services">NEWS</a></li>
+        <li><a href="#news">NEWS</a></li>
         <li><a href="#portfolio">PORTFOLIO</a></li>
         <li><a href="#membership">MEMBERSHIP</a></li>
         <li><a href="#contact">CONTACT</a></li>
@@ -91,44 +91,36 @@ will embody Cal Poly Pomona’s “Learn by Doing” philosophy.</p>
 </div>
 
 <!-- Container (Services Section) -->
-<div id="services" class="container-fluid text-center">
+<div id="news" class="container-fluid text-center">
   <h2>NEWS</h2>
   <h4>What is moving the market.</h4>
   <br>
-  <div class="row slideanim">
-    <div class="col-sm-4">
-      <!--<span class="glyphicon glyphicon-off logo-small"></span>-->
-      <h4>US STOCKS</h4>
-      <p>Lorem ipsum dolor sit amet..</p>
-    </div>
-    <div class="col-sm-4">
-      <!--<span class="glyphicon glyphicon-heart logo-small"></span>-->
-      <h4>WORLD ex US</h4>
-      <p>Lorem ipsum dolor sit amet..</p>
-    </div>
-    <div class="col-sm-4">
-      <!--<span class="glyphicon glyphicon-lock logo-small"></span>-->
-      <h4>FIXED INCOME</h4>
-      <p>Lorem ipsum dolor sit amet..</p>
-    </div>
-  </div>
-  <br><br>
-  <div class="row slideanim">
-    <div class="col-sm-4">
-      <!--<span class="glyphicon glyphicon-leaf logo-small"></span>-->
-      <h4>RATES</h4>
-      <p>Lorem ipsum dolor sit amet..</p>
-    </div>
-    <div class="col-sm-4">
-      <!--<span class="glyphicon glyphicon-certificate logo-small"></span>-->
-      <h4>FUTURES</h4>
-      <p>Lorem ipsum dolor sit amet..</p>
-    </div>
-    <div class="col-sm-4">
-      <!--<span class="glyphicon glyphicon-wrench logo-small"></span>-->
-      <h4 style="color:#303030;">COMMODITIES</h4>
-      <p>Lorem ipsum dolor sit amet..</p>
-    </div>
+  <div class="container text-center my-4">
+
+    <p class="font-weight-bold">Market Index Information</p>
+
+    <a class="btn btn-primary mb-4" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSWbMpDLwMmjxT_sSlt7YJ9YvyZBgcOE8q654xH3qXxLoUKHEujd5GAwsnTundRm3FREke-xbLFz_rX/pubhtml" role="button" target="_blank">Click to see the source sheet</a>
+
+    <!-- Table  -->
+    <table class="table table bordered table-striped" id="testTable">
+      <!-- Table head -->
+      <thead>
+        <tr>
+          <th>Asset Class</th>
+          <th>Ticker</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Percent Change</th>
+        </tr>
+      </thead>
+      <!-- Table head -->
+
+      <!-- Table body -->
+      <tbody id="demo">
+      </tbody>
+      <!-- Table body -->
+    </table>
+    <!-- Table  -->
   </div>
 </div>
 
@@ -198,20 +190,7 @@ will embody Cal Poly Pomona’s “Learn by Doing” philosophy.</p>
     </ol>
 
     <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox">
-      <div class="item active">
-        <h4>"Senior, Finance and Accounting Major"<br><span>Joseph Baierl, Co-Managing Director</span></h4>
-      </div>
-      <div class="item">
-        <h4>"Gradutating Senior, Finance"<br><span>Jonathon Oliver, Co-Managing Director</span></h4>
-      </div>
-      <div class="item">
-        <h4>"Gradutating Senior, Finance"<br><span>Jeremy Jenanyan, Trader</span></h4>
-      </div>
-      <div class="item">
-        <h4>"Gradutating Senior, Finance"<br><span>Tushar Nandwani, Compliance Officer</span></h4>
-      </div>
-    </div>
+
 
     <!-- Left and right controls -->
     <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
@@ -353,6 +332,32 @@ $(document).ready(function(){
     });
   });
 })
+
+$.getJSON("https://spreadsheets.google.com/feeds/list/1T-eJeJyxV6tzWn5XZZRKO9nvhjwSIrYleEEvv7ryUgc/od6/public/values?alt=json", function (data) {
+
+  var sheetData = data.feed.entry;
+
+  var i;
+  for (i = 0; i < sheetData.length; i++) {
+
+    var asset_class = data.feed.entry[i]['gsx$_cn6ca']['$t'];
+    var ticker = data.feed.entry[i]['gsx$_cokwr']['$t'];
+    var description = data.feed.entry[i]['gsx$_cpzh4']['$t'];
+    var price = data.feed.entry[i]['gsx$_cre1l']['$t'];
+    var pct_change = data.feed.entry[i]['gsx$_chk2m']['$t'];
+
+    document.getElementById('demo').innerHTML += ('<tr>'+'<td>'+
+                                                  asset_class+'</td>'+'<td>'+
+                                                  ticker+'</td>'+'<td>'+
+                                                  description+'</td>'+'<td>'+
+                                                  price+'</td>'+'<td>'+
+                                                  pct_change+'</td>'+'</tr>');
+
+  }
+});
+
+
+
 </script>
 
 </body>
